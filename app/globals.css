@@ -123,6 +123,51 @@
     }
 }
 
+/* For Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 8px; /* Thin scrollbar */
+}
+
+::-webkit-scrollbar-track {
+    background: #3a3a3a; /* Lighter dark gray track */
+    border-radius: 4px; /* Rounded corners for the track */
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #5a4fcf, #c54b8c); /* Gradient from iris purple to mulberry */
+    border-radius: 4px; /* Rounded corners for the thumb */
+    border: 2px solid transparent; /* Transparent border */
+    background-clip: padding-box; /* Ensures the gradient doesn't bleed into the border */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #4a3fbf, #b53a7c); /* Darker gradient on hover */
+}
+
+/* Completely remove arrow buttons */
+::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+/* Remove the corner where vertical and horizontal scrollbars meet */
+::-webkit-scrollbar-corner {
+    background: transparent;
+}
+
+/* For Firefox */
+* {
+    scrollbar-width: thin; /* Thin scrollbar */
+    scrollbar-color: #5a4fcf #3a3a3a; /* Iris purple thumb and lighter dark gray track */
+}
+
+/* For Internet Explorer (if needed) */
+body {
+    scrollbar-face-color: #5a4fcf; /* Iris purple thumb */
+    scrollbar-track-color: #3a3a3a; /* Lighter dark gray track */
+}
+
 .grid-background {
     position: fixed;
     top: 0;
