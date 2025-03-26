@@ -8,18 +8,17 @@ export async function updateUser(data) {
   if (!userId) throw new Error("Unauthorized");
 
   const user = await db.user.findUnique({
-    where: {
-      clerkUserId: userId,
-    },
+    where: { clerkUserId: userId },
   });
 
   if (!user) throw new Error("User not found");
 
   try {
+    // START A TRANSACTION TO HANDLE BOTH OPERATIONS
     const result = await db.$transaction(
       async (tx) => {
         // FIND IF THE INDUSTRY EXISTS
-        let industryInsight = await tx.industryInsights.findUnique({
+        let industryInsight = await tx.industryInsight.findUnique({
           where: {
             industry: data.industry,
           },
@@ -27,7 +26,7 @@ export async function updateUser(data) {
 
         // TODO: IF INDUSTRY DOESN'T EXIST, CREATE IT WITH DEFAULT VALUES - WILL REPLACE WITH AI LATER
         if (!industryInsight) {
-          industryInsight = await tx.industryInsight.create({
+          industryInsight = await db.industryInsight.create({
             data: {
               industry: data.industry,
               salaryRanges: [],
@@ -42,7 +41,7 @@ export async function updateUser(data) {
           });
         }
 
-        // UPDATE THE USER
+        // Now update the user
         const updatedUser = await tx.user.update({
           where: {
             id: user.id,
@@ -58,11 +57,11 @@ export async function updateUser(data) {
         return { updatedUser, industryInsight };
       },
       {
-        timeout: 10000, // DEFAULT = 5000
+        timeout: 10000, // default: 5000
       },
     );
 
-    return result.user;
+    return { success: true, ...result };
   } catch (error) {
     console.log({
       status: "error",
