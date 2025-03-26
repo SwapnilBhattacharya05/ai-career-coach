@@ -1,13 +1,6 @@
 import HeroSection from "@/components/Hero";
 import { features } from "@/data/features";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { statistics } from "@/data/statistics";
 import { howItWorks } from "@/data/howItWorks";
 import { testimonial } from "@/data/testimonials";
@@ -177,7 +170,9 @@ export default function Home() {
             <Accordion type="single" collapsible>
               {faqs.map((item, index) => (
                 <AccordionItem key={index} value={`item-${index}`}>
-                  <AccordionTrigger>{item.question}</AccordionTrigger>
+                  <AccordionTrigger className="py-4 hover:no-underline [&[data-state=open]>svg]:rotate-180 text-left">
+                    {item.question}
+                  </AccordionTrigger>
                   <AccordionContent>{item.answer}</AccordionContent>
                 </AccordionItem>
               ))}
