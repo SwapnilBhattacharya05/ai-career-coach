@@ -1,6 +1,7 @@
 "use server";
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
+import {generateAIInsights} from "@/actions/dashboard";
 
 export async function updateUser(data) {
   // CHECK USER LOGGED IN OR NOT BEFORE UPDATING
@@ -26,19 +27,27 @@ export async function updateUser(data) {
 
         // TODO: IF INDUSTRY DOESN'T EXIST, CREATE IT WITH DEFAULT VALUES - WILL REPLACE WITH AI LATER
         if (!industryInsight) {
+          const insights = await generateAIInsights(data.industry);
           industryInsight = await db.industryInsight.create({
             data: {
               industry: data.industry,
-              salaryRanges: [],
-              growthRate: 0,
-              demandLevel: "MEDIUM",
-              topSkills: [],
-              marketOutlook: "NEUTRAL",
-              keyTrends: [],
-              recommendedSkills: [],
-              nextUpdate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 1 week from now
+              ...insights,
+              nextUpdate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
             },
           });
+          // industryInsight = await db.industryInsight.create({
+          //   data: {
+          //     industry: data.industry,
+          //     salaryRanges: [],
+          //     growthRate: 0,
+          //     demandLevel: "MEDIUM",
+          //     topSkills: [],
+          //     marketOutlook: "NEUTRAL",
+          //     keyTrends: [],
+          //     recommendedSkills: [],
+          //     nextUpdate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 1 week from now
+          //   },
+          // });
         }
 
         // Now update the user
