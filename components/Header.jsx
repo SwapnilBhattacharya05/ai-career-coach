@@ -98,7 +98,7 @@ const Header = async () => {
 
           <SignedOut>
             <SignInButton mode="redirect">
-              <Button variant="outline">
+              <Button variant="outline" className="cursor-pointer">
                 <span className="hidden md:block">Sign In</span>
               </Button>
             </SignInButton>

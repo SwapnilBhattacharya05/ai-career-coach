@@ -48,21 +48,27 @@ export async function getIndustryInsights() {
 
   const user = await db.user.findUnique({
     where: { clerkUserId: userId },
+    include: {
+      industryInsight: true,
+    },
   });
 
   if (!user) throw new Error("User not found");
+
+  // If no insights exist, generate them
   if (!user.industryInsight) {
     const insights = await generateAIInsights(user.industry);
 
-    return db.industryInsight.create({
+    const industryInsight = await db.industryInsight.create({
       data: {
         industry: user.industry,
         ...insights,
         nextUpdate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
       },
     });
+
+    return industryInsight;
   }
 
-  // IF INDUSTRY INSIGHT EXISTS FOR USER
   return user.industryInsight;
 }

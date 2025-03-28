@@ -21,13 +21,13 @@ model User {
   imageUrl    String? // OPTIONAL
   industry    String? // OPTIONAL
 
-  industryInsights IndustryInsight? @relation(fields: [industry], references: [industry])
+  industryInsight IndustryInsight? @relation(fields: [industry], references: [industry])
   /**
    * fields => IndustryInsight MODEL
    * references => User MODEL
    */
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
 
   // PROFILE FIELDS
   bio        String? // OPTIONAL
