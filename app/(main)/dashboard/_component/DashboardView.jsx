@@ -29,6 +29,7 @@ import {
 } from "recharts";
 
 const DashboardView = ({ insights }) => {
+  // console.log(insights);
   const salaryData = insights.salaryRanges.map((range) => ({
     name: range.role,
     min: range.min / 1000,
