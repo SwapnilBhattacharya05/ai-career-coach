@@ -29,15 +29,12 @@ const Quiz = () => {
     data: quizData,
   } = useFetch(generateQuiz);
 
-  console.log(quizData);
   const {
     loading: savingResult,
     fn: saveQuizResultFn,
     data: resultData,
     setData: setResultData,
   } = useFetch(saveQuizResult);
-
-  console.log(resultData);
 
   useEffect(() => {
     if (quizData) {
@@ -51,22 +48,12 @@ const Quiz = () => {
     setAnswers(newAnswers);
   };
 
-  const handleNext = async () => {
+  const handleNext = () => {
     if (currentQuestion < quizData.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
       setShowExplanation(false);
     } else {
-      await finishQuiz();
-    }
-  };
-  const finishQuiz = async () => {
-    const score = calculateScore();
-    setShowExplanation(false);
-    try {
-      await saveQuizResultFn(quizData, answers, score);
-      toast.success("Quiz Completed!");
-    } catch (e) {
-      toast.error(e.message || "Failed to save result");
+      finishQuiz();
     }
   };
 
@@ -80,11 +67,22 @@ const Quiz = () => {
     return (correct / quizData.length) * 100;
   };
 
-  const startNewQuiz = async () => {
+  const finishQuiz = async () => {
+    const score = calculateScore();
+    try {
+      await saveQuizResultFn(quizData, answers, score);
+
+      toast.success("Quiz completed!");
+    } catch (error) {
+      toast.error(error.message || "Failed to save quiz results");
+    }
+  };
+
+  const startNewQuiz = () => {
     setCurrentQuestion(0);
     setAnswers([]);
     setShowExplanation(false);
-    await generateQuizFn();
+    generateQuizFn();
     setResultData(null);
   };
 
@@ -92,7 +90,7 @@ const Quiz = () => {
     return <BarLoader className="mt-4" width={"100%"} color="gray" />;
   }
 
-  // SHOW RESULTS IF QUIZ IS COMPLETED
+  // Show results if quiz is completed
   if (resultData) {
     return (
       <div className="mx-2">
@@ -114,7 +112,7 @@ const Quiz = () => {
           </p>
         </CardContent>
         <CardFooter>
-          <Button className="w-full cursor-pointer" onClick={generateQuizFn}>
+          <Button onClick={generateQuizFn} className="w-full cursor-pointer">
             Start Quiz
           </Button>
         </CardFooter>
@@ -132,15 +130,14 @@ const Quiz = () => {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <p className="text-lg font-medium">{question?.question}</p>
-
+        <p className="text-lg font-medium">{question.question}</p>
         <RadioGroup
-          className="space-y-2"
           onValueChange={handleAnswer}
           value={answers[currentQuestion]}
+          className="space-y-2"
         >
-          {question?.options.map((option, index) => (
-            <div className="flex items-center space-x-2" key={index}>
+          {question.options.map((option, index) => (
+            <div key={index} className="flex items-center space-x-2">
               <RadioGroupItem
                 value={option}
                 id={`option-${index}`}
@@ -152,14 +149,15 @@ const Quiz = () => {
             </div>
           ))}
         </RadioGroup>
+
         {showExplanation && (
           <div className="mt-4 p-4 bg-muted rounded-lg">
-            <p className="font-medium">Explanation: </p>
-            <p className="text-muted-foreground">{question?.explanation}</p>
+            <p className="font-medium">Explanation:</p>
+            <p className="text-muted-foreground">{question.explanation}</p>
           </div>
         )}
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex justify-between">
         {!showExplanation && (
           <Button
             onClick={() => setShowExplanation(true)}
@@ -172,10 +170,12 @@ const Quiz = () => {
         )}
         <Button
           onClick={handleNext}
-          className="ml-auto cursor-pointer"
           disabled={!answers[currentQuestion] || savingResult}
+          className="ml-auto cursor-pointer"
         >
-          {savingResult && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          {savingResult && (
+            <BarLoader className="mt-4" width={"100%"} color="gray" />
+          )}
           {currentQuestion < quizData.length - 1
             ? "Next Question"
             : "Finish Quiz"}

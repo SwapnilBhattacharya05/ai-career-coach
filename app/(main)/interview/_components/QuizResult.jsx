@@ -1,9 +1,15 @@
-import { CheckCircle2, Trophy, XCircle } from "lucide-react";
+"use client";
+
+import { Trophy, CheckCircle2, XCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { CardContent, CardFooter } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Button } from "@/components/ui/button";
 
-const QuizResult = ({ result, hideStartNew = false, onStartNew }) => {
+export default function QuizResult({
+  result,
+  hideStartNew = false,
+  onStartNew,
+}) {
   if (!result) return null;
 
   return (
@@ -12,14 +18,15 @@ const QuizResult = ({ result, hideStartNew = false, onStartNew }) => {
         <Trophy className="h-6 w-6 text-yellow-500" />
         Quiz Results
       </h1>
+
       <CardContent className="space-y-6">
-        {/*SCORE OVERVIEW*/}
+        {/* Score Overview */}
         <div className="text-center space-y-2">
           <h3 className="text-2xl font-bold">{result.quizScore.toFixed(1)}%</h3>
           <Progress value={result.quizScore} className="w-full" />
         </div>
 
-        {/*IMPROVEMENT TIP*/}
+        {/* Improvement Tip */}
         {result.improvementTip && (
           <div className="bg-muted p-4 rounded-lg">
             <p className="font-medium">Improvement Tip:</p>
@@ -27,10 +34,11 @@ const QuizResult = ({ result, hideStartNew = false, onStartNew }) => {
           </div>
         )}
 
+        {/* Questions Review */}
         <div className="space-y-4">
           <h3 className="font-medium">Question Review</h3>
-          {result.questions.map((q) => (
-            <div className="border rounded-lg p-4 space-y-2" key={q.question}>
+          {result.questions.map((q, index) => (
+            <div key={index} className="border rounded-lg p-4 space-y-2">
               <div className="flex items-start justify-between gap-2">
                 <p className="font-medium">{q.question}</p>
                 {q.isCorrect ? (
@@ -39,7 +47,6 @@ const QuizResult = ({ result, hideStartNew = false, onStartNew }) => {
                   <XCircle className="h-5 w-5 text-red-500 flex-shrink-0" />
                 )}
               </div>
-
               <div className="text-sm text-muted-foreground">
                 <p>Your answer: {q.userAnswer}</p>
                 {!q.isCorrect && <p>Correct answer: {q.answer}</p>}
@@ -62,5 +69,4 @@ const QuizResult = ({ result, hideStartNew = false, onStartNew }) => {
       )}
     </div>
   );
-};
-export default QuizResult;
+}
