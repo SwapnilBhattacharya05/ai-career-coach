@@ -69,7 +69,7 @@ export async function saveQuizResult(questions, answers, score) {
 
   const questionResults = questions.map((q, index) => ({
     question: q.question,
-    answers: q.correctAnswer,
+    answer: q.correctAnswer,
     userAnswer: answers[index],
     isCorrect: q.correctAnswer === answers[index],
     explanation: q.explanation,

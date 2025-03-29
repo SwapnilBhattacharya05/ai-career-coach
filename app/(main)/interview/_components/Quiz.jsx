@@ -51,16 +51,17 @@ const Quiz = () => {
     setAnswers(newAnswers);
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (currentQuestion < quizData.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
       setShowExplanation(false);
     } else {
-      finishQuiz();
+      await finishQuiz();
     }
   };
   const finishQuiz = async () => {
     const score = calculateScore();
+    setShowExplanation(false);
     try {
       await saveQuizResultFn(quizData, answers, score);
       toast.success("Quiz Completed!");
@@ -79,11 +80,11 @@ const Quiz = () => {
     return (correct / quizData.length) * 100;
   };
 
-  const startNewQuiz = () => {
+  const startNewQuiz = async () => {
     setCurrentQuestion(0);
     setAnswers([]);
     setShowExplanation(false);
-    generateQuizFn();
+    await generateQuizFn();
     setResultData(null);
   };
 
@@ -140,8 +141,14 @@ const Quiz = () => {
         >
           {question?.options.map((option, index) => (
             <div className="flex items-center space-x-2" key={index}>
-              <RadioGroupItem value={option} id={`option-${index}`} />
-              <Label htmlFor={`option-${index}`}>{option}</Label>
+              <RadioGroupItem
+                value={option}
+                id={`option-${index}`}
+                className="cursor-pointer"
+              />
+              <Label htmlFor={`option-${index}`} className="cursor-pointer">
+                {option}
+              </Label>
             </div>
           ))}
         </RadioGroup>
@@ -158,13 +165,14 @@ const Quiz = () => {
             onClick={() => setShowExplanation(true)}
             variant="outline"
             disabled={!answers[currentQuestion]}
+            className="cursor-pointer"
           >
             Show Explanation
           </Button>
         )}
         <Button
           onClick={handleNext}
-          className="ml-auto"
+          className="ml-auto cursor-pointer"
           disabled={!answers[currentQuestion] || savingResult}
         >
           {savingResult && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
