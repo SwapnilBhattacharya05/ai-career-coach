@@ -12,7 +12,7 @@ import {
   ChevronDown,
   FileText,
   GraduationCap,
-  LayoutDashboard,
+  LayoutDashboard, LogIn,
   PenBox,
   StarsIcon,
 } from "lucide-react";
@@ -100,6 +100,7 @@ const Header = async () => {
             <SignInButton mode="redirect">
               <Button variant="outline" className="cursor-pointer">
                 <span className="hidden md:block">Sign In</span>
+                <span className="md:hidden"><LogIn /></span>
               </Button>
             </SignInButton>
           </SignedOut>

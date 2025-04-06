@@ -142,7 +142,15 @@ const EntryForm = ({ type, entries, onChange }) => {
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Input
-                  placeholder="Title/Position"
+                  placeholder={
+                    type === "Experience"
+                      ? "Title/Position"
+                      : type === "Education"
+                        ? "Degree"
+                        : type === "Project"
+                          ? "Project Name"
+                          : "Title"
+                  }
                   {...register("title")}
                   error={errors.title}
                 />
@@ -155,7 +163,7 @@ const EntryForm = ({ type, entries, onChange }) => {
 
               <div className="space-y-2">
                 <Input
-                  placeholder="Organization/Company"
+                  placeholder={`${type === "Experience" ? "Organization/Company" : type === "Education" ? "Institution" : type==="Project" ? "Company/Solo" : "Organization"}`}
                   {...register("organization")}
                   error={errors.organization}
                 />
@@ -258,7 +266,11 @@ const EntryForm = ({ type, entries, onChange }) => {
             >
               Cancel
             </Button>
-            <Button type="button" onClick={handleAdd} className="cursor-pointer">
+            <Button
+              type="button"
+              onClick={handleAdd}
+              className="cursor-pointer"
+            >
               <PlusCircle className="h-4 w-4 mr-2" /> Add Entry
             </Button>
           </CardFooter>
