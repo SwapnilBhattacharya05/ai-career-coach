@@ -6,7 +6,6 @@ import QuizList from "@/app/(main)/interview/_components/QuizList";
 const InterviewPage = async() => {
     const assessments = await getAssessments();
   return (
-    <div>
       <div>
         <h1 className="text-6xl font-bold gradient-title mb-5">
           Interview Preparation
@@ -16,7 +15,6 @@ const InterviewPage = async() => {
               <PerformanceChart assessments={assessments} />
               <QuizList assessments={assessments} />
           </div>
-      </div>
     </div>
   );
 };
