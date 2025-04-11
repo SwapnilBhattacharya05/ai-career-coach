@@ -25,30 +25,28 @@ import {
 } from "@/components/ui/alert-dialog";
 import { deleteCoverLetter } from "@/actions/cover-letter";
 
-const handleDelete = async (id) => {
-  try {
-    await deleteCoverLetter(id);
-    toast.success("Cover letter deleted successfully!");
-    router.refresh();
-  } catch (error) {
-    toast.error(error.message || "Failed to delete cover letter");
-  }
-};
-
-
 const CoverLetterList = ({ coverLetters }) => {
   const router = useRouter();
 
+  const handleDelete = async (id) => {
+    try {
+      await deleteCoverLetter(id);
+      toast.success("Cover letter deleted successfully!");
+      router.refresh();
+    } catch (error) {
+      toast.error(error.message || "Failed to delete cover letter");
+    }
+  };
   if (!coverLetters?.length) {
     return (
-        <Card>
-          <CardHeader>
-            <CardTitle>No Cover Letters Yet</CardTitle>
-            <CardDescription>
-              Create your first cover letter to get started
-            </CardDescription>
-          </CardHeader>
-        </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>No Cover Letters Yet</CardTitle>
+          <CardDescription>
+            Create your first cover letter to get started
+          </CardDescription>
+        </CardHeader>
+      </Card>
     );
   }
   return (
@@ -76,7 +74,11 @@ const CoverLetterList = ({ coverLetters }) => {
                     <Eye className="h-4 w-4" />
                   </Button>
                   <AlertDialogTrigger asChild>
-                    <Button variant="outline" size="icon" className="cursor-pointer">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      className="cursor-pointer"
+                    >
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </AlertDialogTrigger>
@@ -90,10 +92,12 @@ const CoverLetterList = ({ coverLetters }) => {
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogCancel className="cursor-pointer">
+                        Cancel
+                      </AlertDialogCancel>
                       <AlertDialogAction
                         onClick={() => handleDelete(letter.id)}
-                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                        className="cursor-pointer bg-destructive text-destructive-foreground hover:bg-destructive/90"
                       >
                         Delete
                       </AlertDialogAction>

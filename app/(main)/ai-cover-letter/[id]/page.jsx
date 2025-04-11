@@ -5,7 +5,7 @@ import { getCoverLetter } from "@/actions/cover-letter";
 import CoverLetterPreview from "@/app/(main)/ai-cover-letter/_components/CoverLetterPreview";
 
 const CoverLetter = async ({ params }) => {
-  const id = await params;
+  const { id } = await params;
 
   const coverLetter = await getCoverLetter(id);
 
