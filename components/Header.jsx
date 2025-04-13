@@ -21,12 +21,10 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import { dark, shadesOfPurple } from "@clerk/themes";
+import { dark } from "@clerk/themes";
 import { checkUser } from "@/lib/checkUser";
 
 const Header = async () => {
