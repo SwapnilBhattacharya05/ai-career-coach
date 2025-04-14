@@ -1,7 +1,6 @@
 import React from "react";
 import { getUserOnboardingStatus } from "@/actions/user";
 import { redirect } from "next/navigation";
-;
 import DashboardView from "@/app/(main)/dashboard/_component/DashboardView";
 import {getIndustryInsights} from "@/actions/dashboard";
 
