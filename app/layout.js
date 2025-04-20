@@ -5,10 +5,9 @@ import Header from "@/components/Header";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { Toaster } from "@/components/ui/sonner";
-import { Button } from "../components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
-
+import { Analytics } from '@vercel/analytics/next';
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -110,6 +109,7 @@ export default function RootLayout({ children }) {
               </div>
             </footer>
           </ThemeProvider>
+        <Analytics />
         </body>
       </html>
     </ClerkProvider>
