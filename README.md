@@ -62,6 +62,14 @@ npm install
   SENTRY_AUTH_TOKEN=
    ```
 
+## ⚠️ Connect with your project
+**Setup the Sentry**
+```bash
+npm install @sentry/nextjs@latest --legacy-peer-deps
+npx @sentry/wizard@latest -i nextjs
+```
+_This step is important to connect your project with Sentry to get the logs_ 
+
 **Setup the database**
 ```bash
 npx prisma migrate dev
