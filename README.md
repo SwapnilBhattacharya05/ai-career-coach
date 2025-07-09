@@ -1,6 +1,6 @@
 # 🚀 Careerio - AI Powered Career Coach
 
-Your intelligent career companion! Careerio leverages **Google Gemini AI** to provide personalized career guidance, resume generation, interview preparation, and industry insights tailored to your skills.
+Your intelligent career companion! Careerio leverages **Google Gemini AI** to provide personalized career guidance, resume generation, and industry insights tailored to your skills.
 
 ## ⚙️ Key Features
 
